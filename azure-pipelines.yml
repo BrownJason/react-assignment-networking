@@ -15,15 +15,15 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Free Trial(0da2984d-56bf-4a09-81b1-a9c05480d7d6)'
-    appType: 'webApp'
-    appName: 'ReactNetworkingTest'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
-
 - script: |
     npm install
     npm run build
   displayName: 'npm install and build'
+  
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(0da2984d-56bf-4a09-81b1-a9c05480d7d6)'
+    appType: 'webApp'
+    WebAppName: 'ReactNetworkingTest'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/build'
